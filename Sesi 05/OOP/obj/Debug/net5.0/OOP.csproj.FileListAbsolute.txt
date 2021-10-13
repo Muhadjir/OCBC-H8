@@ -1,0 +1,16 @@
+E:\OCBC Hacktiv8\C#\Sesi 05\OOP\obj\Debug\net5.0\OOP.csproj.AssemblyReference.cache
+E:\OCBC Hacktiv8\C#\Sesi 05\OOP\obj\Debug\net5.0\OOP.GeneratedMSBuildEditorConfig.editorconfig
+E:\OCBC Hacktiv8\C#\Sesi 05\OOP\obj\Debug\net5.0\OOP.AssemblyInfoInputs.cache
+E:\OCBC Hacktiv8\C#\Sesi 05\OOP\obj\Debug\net5.0\OOP.AssemblyInfo.cs
+E:\OCBC Hacktiv8\C#\Sesi 05\OOP\obj\Debug\net5.0\OOP.csproj.CoreCompileInputs.cache
+E:\OCBC Hacktiv8\C#\Sesi 05\OOP\bin\Debug\net5.0\OOP.exe
+E:\OCBC Hacktiv8\C#\Sesi 05\OOP\bin\Debug\net5.0\OOP.deps.json
+E:\OCBC Hacktiv8\C#\Sesi 05\OOP\bin\Debug\net5.0\OOP.runtimeconfig.json
+E:\OCBC Hacktiv8\C#\Sesi 05\OOP\bin\Debug\net5.0\OOP.runtimeconfig.dev.json
+E:\OCBC Hacktiv8\C#\Sesi 05\OOP\bin\Debug\net5.0\OOP.dll
+E:\OCBC Hacktiv8\C#\Sesi 05\OOP\bin\Debug\net5.0\ref\OOP.dll
+E:\OCBC Hacktiv8\C#\Sesi 05\OOP\bin\Debug\net5.0\OOP.pdb
+E:\OCBC Hacktiv8\C#\Sesi 05\OOP\obj\Debug\net5.0\OOP.dll
+E:\OCBC Hacktiv8\C#\Sesi 05\OOP\obj\Debug\net5.0\ref\OOP.dll
+E:\OCBC Hacktiv8\C#\Sesi 05\OOP\obj\Debug\net5.0\OOP.pdb
+E:\OCBC Hacktiv8\C#\Sesi 05\OOP\obj\Debug\net5.0\OOP.genruntimeconfig.cache

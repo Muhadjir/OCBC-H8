@@ -1,0 +1,16 @@
+E:\OCBC Hacktiv8\C#\Sesi 05\Encapsulation\obj\Debug\net5.0\Encapsulation.csproj.AssemblyReference.cache
+E:\OCBC Hacktiv8\C#\Sesi 05\Encapsulation\obj\Debug\net5.0\Encapsulation.GeneratedMSBuildEditorConfig.editorconfig
+E:\OCBC Hacktiv8\C#\Sesi 05\Encapsulation\obj\Debug\net5.0\Encapsulation.AssemblyInfoInputs.cache
+E:\OCBC Hacktiv8\C#\Sesi 05\Encapsulation\obj\Debug\net5.0\Encapsulation.AssemblyInfo.cs
+E:\OCBC Hacktiv8\C#\Sesi 05\Encapsulation\obj\Debug\net5.0\Encapsulation.csproj.CoreCompileInputs.cache
+E:\OCBC Hacktiv8\C#\Sesi 05\Encapsulation\bin\Debug\net5.0\Encapsulation.exe
+E:\OCBC Hacktiv8\C#\Sesi 05\Encapsulation\bin\Debug\net5.0\Encapsulation.deps.json
+E:\OCBC Hacktiv8\C#\Sesi 05\Encapsulation\bin\Debug\net5.0\Encapsulation.runtimeconfig.json
+E:\OCBC Hacktiv8\C#\Sesi 05\Encapsulation\bin\Debug\net5.0\Encapsulation.runtimeconfig.dev.json
+E:\OCBC Hacktiv8\C#\Sesi 05\Encapsulation\bin\Debug\net5.0\Encapsulation.dll
+E:\OCBC Hacktiv8\C#\Sesi 05\Encapsulation\bin\Debug\net5.0\ref\Encapsulation.dll
+E:\OCBC Hacktiv8\C#\Sesi 05\Encapsulation\bin\Debug\net5.0\Encapsulation.pdb
+E:\OCBC Hacktiv8\C#\Sesi 05\Encapsulation\obj\Debug\net5.0\Encapsulation.dll
+E:\OCBC Hacktiv8\C#\Sesi 05\Encapsulation\obj\Debug\net5.0\ref\Encapsulation.dll
+E:\OCBC Hacktiv8\C#\Sesi 05\Encapsulation\obj\Debug\net5.0\Encapsulation.pdb
+E:\OCBC Hacktiv8\C#\Sesi 05\Encapsulation\obj\Debug\net5.0\Encapsulation.genruntimeconfig.cache
