@@ -1,0 +1,118 @@
+Format Tugas
+
+Buat Folder KodePeserta_NamaPeserta_Assigment2
+Buat File Query_Assigment.txt > DISI QUERY NYA
+Export File Query_SQL_EXPORT.sql
+
+QueryAssignment.txt
+NamaPeserta   : NamaAnda
+Kode Peserta  : 001 (Kode PESERTA LENGKAP)
+Tugas         : Assigment 2
+
+
+Screenshot Output Hasil Per Soal
+No. 1 Soal
+Jawaban Query Soal No. 1
+-------------------
+
+Screenshot Output Hasil Per Soal
+No. 2 Soal
+Jawaban Query Soal No. 2
+-------------------
+
+Screenshot Output Hasil Per Soal
+NO.3 Soal
+Jawaban Query Soal No. 3
+-------------------
+
+DST
+-------------------
+
+tb_productlines
+---
+*productLine int(11) auto_increment primary key
+textDescription text not null
+htmlDescription text not null
+image varchar(255) not null
+
+
+panduan soal
+--
+buat database >  menggunakan query
+buat tabel > menggunakan query
+buat store data seperti di soal > menggunakan query
+select data > menggunakan query (terdapat join)
+
+>> bisa improve <<
+
+Buat yg masih di blok firewall & gak mau matiin firewall keseluruhan bisa pake cara ini
+
+1. On the Start menu, click Run, type WF.msc, and then click OK.
+
+2. In the Windows Firewall with Advanced Security, in the left pane, right-click Inbound Rules, and then click New Rule in the action pane.
+
+3. In the Rule Type dialog box, select Port, and then click Next.
+
+4. In the Protocol and Ports dialog box, select TCP. Select Specific local ports, and then type the port number of the instance of the Database Engine, such as 1433 for the default instance. Click Next.
+
+5. In the Action dialog box, select Allow the connection, and then click Next.
+
+6. In the Profile dialog box, select any profiles that describe the computer connection environment when you want to connect to the Database Engine, and then click Next.
+
+7. In the Name dialog box, type a name and description for this rule, and then click Finish.
+
+8. Open SQL Server Config Manager, restart SQL server and SQL server agent.
+
+select top 3 * 
+
+1. create database db_staff;
+2. create table tb_data_staff(
+	nik int identity(1,1) primary key,
+	nama varchar(50) not null,
+	alamat varchar(200) not null,
+	handphone varchar(15) not null);
+3. insert into tb_data_staff(nama, alamat, handphone)
+   values("Muhadjir", "Surabaya", "08932673476");
+4. insert into tb_data_staff(nama, alamat, handphone)
+   values("Bagus", "Jakarta", "08932672346");
+   insert into tb_data_staff(nama, alamat, handphone)
+   values("Alan", "Sidoarjo", "08932612216");
+   insert into tb_data_staff(nama, alamat, handphone)
+   values("Viko", "Malang", "08932698706");
+5. alter table tb_data_staff add joindate date;
+   insert into tb_data_staff(nama, alamat, handphone, joindate)
+   values("Viko", "Malang", "08932698706", 2021-10-13);
+6. select top 2 * from tb_data_staff;
+7. select top 3 * from tb_data_staff;
+8. create table tb_staffoutsource(
+	nik int identity(1,1) primary key,
+	nama varchar(50) not null,
+	alamat varchar(200) not null,
+	handphone varchar(15) not null,
+	joindate date);
+9. insert into tb_staffoutsource(nama, alamat, handphone,joindate)
+   values("Bagus", "Jakarta", "08932672346", 2021-10-10);
+   insert into tb_staffoutsource(nama, alamat, handphone, joindate)
+   values("Alan", "Sidoarjo", "08932612216", 2021-10-11);
+   insert into tb_staffoutsource(nama, alamat, handphone, joindate)
+   values("Beni", "Jakarta", "08932612216", 2021-10-11);
+   insert into tb_staffoutsource(nama, alamat, handphone, joindate)
+   values("Teh", "Bandung", "08932612216", 2021-10-11);
+   insert into tb_staffoutsource(nama, alamat, handphone, joindate)
+   values("Alif", "Arab", "08932612216", 2021-10-11);
+   insert into tb_staffoutsource(nama, alamat, handphone, joindate)
+   values("Bani", "Semarang", "08932612216", 2021-10-11);
+   insert into tb_staffoutsource(nama, alamat, handphone, joindate)
+   values("Aris", "Pacet", "08932612216", 2021-10-11);
+   insert into tb_staffoutsource(nama, alamat, handphone, joindate)
+   values("Ciko", "Surabaya", "08932612216", 2021-10-11);
+   insert into tb_staffoutsource(nama, alamat, handphone, joindate)
+   values("Doni", "Sidoarjo", "08932612216", 2021-10-11);
+   insert into tb_staffoutsource(nama, alamat, handphone, joindate)
+   values("Dani", "Jogja", "08932612216", 2021-10-11);
+
+10. sele
+11.
+12.
+13.
+
