@@ -1,0 +1,23 @@
+CREATE TABLE tb_siswa(
+	id_siswa int identity(1,1) primary key,
+	nis varchar(10) not null,
+	nama varchar(50) not null,
+	alamat varchar(100) not null,
+	tgl_lahir date not null,
+	jenis_kelamin varchar(1) not null
+);
+
+alter table tb_siswa alter column jenis_kelamin varchar(10);
+
+select ts.* from tb_siswa ts;
+
+INSERT INTO TB_SISWA(nis, nama, alamat, tgl_lahir, jenis_kelamin)
+VALUES('10001','BEJO','SURABAYA','2010-10-06','PRIA');
+INSERT INTO TB_SISWA(nis, nama, alamat, tgl_lahir, jenis_kelamin)
+VALUES('10002','ANI','MALANG','2010-10-06','WANITA');
+
+select * from tb_siswa where nama = 'ANI';
+
+select * from tb_siswa where nis = '10001' and alamat like 'SU%';
+
+SELECT * FROM tb_siswa WHERE tgl_lahir BETWEEN '09-10-2010' AND '10-10-2010';
