@@ -1,0 +1,7 @@
+E:\OCBC Hacktiv8\C#\018_MuchamadMuhadjir_Assignment3\Movie\obj\Debug\net5.0\Movie.csproj.AssemblyReference.cache
+E:\OCBC Hacktiv8\C#\018_MuchamadMuhadjir_Assignment3\Movie\obj\Debug\net5.0\Movie.GeneratedMSBuildEditorConfig.editorconfig
+E:\OCBC Hacktiv8\C#\018_MuchamadMuhadjir_Assignment3\Movie\obj\Debug\net5.0\Movie.AssemblyInfoInputs.cache
+E:\OCBC Hacktiv8\C#\018_MuchamadMuhadjir_Assignment3\Movie\obj\Debug\net5.0\Movie.AssemblyInfo.cs
+E:\OCBC Hacktiv8\C#\018_MuchamadMuhadjir_Assignment3\Movie\obj\Debug\net5.0\Movie.csproj.CoreCompileInputs.cache
+E:\OCBC Hacktiv8\C#\018_MuchamadMuhadjir_Assignment3\Movie\obj\Debug\net5.0\Movie.MvcApplicationPartsAssemblyInfo.cs
+E:\OCBC Hacktiv8\C#\018_MuchamadMuhadjir_Assignment3\Movie\obj\Debug\net5.0\Movie.MvcApplicationPartsAssemblyInfo.cache
