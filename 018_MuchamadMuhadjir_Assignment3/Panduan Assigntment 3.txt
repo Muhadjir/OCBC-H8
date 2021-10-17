@@ -1,0 +1,10 @@
+Tugas Assignment 3 
+
+Nama : Muchamad Muhadjir
+Kode Peserta : FSDO001ONL018
+Link Github : https://github.com/Muhadjir/OCBC-H8/tree/main/018_MuchamadMuhadjir_Assignment3
+
+1. Buka Zip 018_MuchamadMuhadjir_Assignment3 lalu buka folder "Movies".
+2. Folder "Bukti SS", sebagai hasil screenshot dari postman API.
+3. Nama Database adalah db_movie.sql
+4. Jalankan Sesuai dengan contoh yang ada pada folder "Bukti SS" untuk parameter POST, PUT, GET, dan DELETE
