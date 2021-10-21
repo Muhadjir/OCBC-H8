@@ -1,0 +1,7 @@
+E:\OCBC Hacktiv8\C#\Sesi 12\UnitTest_Mock\obj\Debug\net5.0\UnitTest_Mock.csproj.AssemblyReference.cache
+E:\OCBC Hacktiv8\C#\Sesi 12\UnitTest_Mock\obj\Debug\net5.0\UnitTest_Mock.GeneratedMSBuildEditorConfig.editorconfig
+E:\OCBC Hacktiv8\C#\Sesi 12\UnitTest_Mock\obj\Debug\net5.0\UnitTest_Mock.AssemblyInfoInputs.cache
+E:\OCBC Hacktiv8\C#\Sesi 12\UnitTest_Mock\obj\Debug\net5.0\UnitTest_Mock.AssemblyInfo.cs
+E:\OCBC Hacktiv8\C#\Sesi 12\UnitTest_Mock\obj\Debug\net5.0\UnitTest_Mock.csproj.CoreCompileInputs.cache
+E:\OCBC Hacktiv8\C#\Sesi 12\UnitTest_Mock\obj\Debug\net5.0\UnitTest_Mock.MvcApplicationPartsAssemblyInfo.cs
+E:\OCBC Hacktiv8\C#\Sesi 12\UnitTest_Mock\obj\Debug\net5.0\UnitTest_Mock.MvcApplicationPartsAssemblyInfo.cache
