@@ -1,0 +1,16 @@
+Penggunaan API
+
+[GET]
+https://localhost:5001/api/paymentdetail
+
+[GET('{id}')]
+https://localhost:5001/api/paymentdetail/id
+
+[POST]
+https://localhost:5001/api/paymentdetail
+
+[PUT('{id}')]
+https://localhost:5001/api/paymentdetail/id
+
+[DELETE('{id}')]
+https://localhost:5001/api/paymentdetail/id
