@@ -5,15 +5,18 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-// using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-// using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PaymentDetail.Models.DTOs.Requests;
 using PaymentDetail.Models.DTOs.Responses;
 using PaymentDetail.Configuration;
+using PaymentDetail.Data;
+using PaymentDetail.Models;
 
 namespace PaymentDetail.Controllers
 {
@@ -23,22 +26,22 @@ namespace PaymentDetail.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly JwtConfig _jwtConfig;
-        // private readonly TokenValidationParameters _tokenValidationParams;
-        // private readonly ApiDbContext _apiDbContext;
+        private readonly TokenValidationParameters _tokenValidationParams;
+        private readonly ApiDbContext _apiDbContext;
 
-        // TokenValidationParameters tokenValidationParameters,
         public AuthManagementController(
             UserManager<IdentityUser> userManager,
-            IOptionsMonitor<JwtConfig> optionsMonitor
-            // IOptionsMonitor<JwtBearerOptions> optionsMonitorJwtBearerOpt,
-            // ApiDbContext apiDbContext
+            IOptionsMonitor<JwtConfig> optionsMonitor,
+        TokenValidationParameters tokenValidationParameters,
+            IOptionsMonitor<JwtBearerOptions> optionsMonitorJwtBearerOpt,
+            ApiDbContext apiDbContext
         )
         {
             _userManager = userManager;
             _jwtConfig = optionsMonitor.CurrentValue;
-            // var jwtBearerOpt = optionsMonitorJwtBearerOpt.Get(JwtBearerDefaults.AuthenticationScheme);
-            // _tokenValidationParams = jwtBearerOpt.TokenValidationParameters;
-            // _apiDbContext = apiDbContext;
+            var jwtBearerOpt = optionsMonitorJwtBearerOpt.Get(JwtBearerDefaults.AuthenticationScheme);
+            _tokenValidationParams = jwtBearerOpt.TokenValidationParameters;
+            _apiDbContext = apiDbContext;
         }
 
         [HttpPost]
@@ -67,7 +70,7 @@ namespace PaymentDetail.Controllers
                 if (isCreated.Succeeded)
                 {
                     // var jwtToken = await GenerateJwtToken(newUser);
-                    var jwtToken = GenerateJwtToken(newUser);
+                    var jwtToken = await GenerateJwtToken(newUser);
                     return Ok(jwtToken);
                 }
                 else
@@ -119,7 +122,7 @@ namespace PaymentDetail.Controllers
                         Success = false
                     });
                 }
-                var jwtToken = GenerateJwtToken(existingUser);
+                var jwtToken = await GenerateJwtToken(existingUser);
 
                 return Ok(jwtToken);
             }
@@ -132,38 +135,38 @@ namespace PaymentDetail.Controllers
             });
         }
 
-        // [HttpPost]
-        // [Route("RefreshToken")]
-        // public async Task<IActionResult> RefreshToken([FromBody] TokenRequest tokenRequest)
-        // {
-        //     if (ModelState.IsValid)
-        //     {
-        //         var result = await VerifyAndGenerateToken(tokenRequest);
+        [HttpPost]
+        [Route("RefreshToken")]
+        public async Task<IActionResult> RefreshToken([FromBody] TokenRequest tokenRequest)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await VerifyAndGenerateToken(tokenRequest);
 
-        //         if (result == null)
-        //         {
-        //             return BadRequest(new RegistrationResponse()
-        //             {
-        //                 errors = new List<string>() {
-        //                     "Invalid tokens"
-        //                 },
-        //                 success = false
-        //             });
-        //         }
-        //         return Ok(result);
-        //     }
+                if (result == null)
+                {
+                    return BadRequest(new RegistrationResponse()
+                    {
+                        Errors = new List<string>() {
+                            "Invalid tokens"
+                        },
+                        Success = false
+                    });
+                }
+                return Ok(result);
+            }
 
-        //     return BadRequest(new RegistrationResponse()
-        //     {
-        //         errors = new List<string>()
-        //         {
-        //             "Invalid payload"
-        //         },
-        //         success = false
-        //     });
-        // }
+            return BadRequest(new RegistrationResponse()
+            {
+                Errors = new List<string>()
+                {
+                    "Invalid payload"
+                },
+                Success = false
+            });
+        }
 
-        private string GenerateJwtToken(IdentityUser user)
+        private async Task<AuthResult> GenerateJwtToken(IdentityUser user)
         // private async Task<AuthResult> GenerateJwtToken(IdentityUser user)
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
@@ -185,162 +188,162 @@ namespace PaymentDetail.Controllers
             var token = jwtTokenHandler.CreateToken(tokenDescriptor);
             var jwtToken = jwtTokenHandler.WriteToken(token);
 
-            // var refreshToken = new RefreshToken()
-            // {
-            //     jwtId = token.Id,
-            //     isUsed = false,
-            //     isRevoked = false,
-            //     userId = user.Id,
-            //     addedDate = DateTime.UtcNow,
-            //     expiryDate = DateTime.UtcNow.AddMinutes(30),
-            //     token = RandomString(35) + Guid.NewGuid()
-            // };
+            var refreshToken = new RefreshToken()
+            {
+                jwtId = token.Id,
+                isUsed = false,
+                isRevoked = false,
+                userId = user.Id,
+                addedDate = DateTime.UtcNow,
+                expiryDate = DateTime.UtcNow.AddMinutes(30),
+                token = RandomString(35) + Guid.NewGuid()
+            };
 
-            // await _apiDbContext.RefreshTokens.AddAsync(refreshToken);
-            // _apiDbContext.SaveChanges();
-            // return new AuthResult()
-            // {
-            //     token = jwtToken,
-            //     success = true,
-            //     refreshToken = refreshToken.token
-            // };
-            return jwtToken;
+            await _apiDbContext.RefreshTokens.AddAsync(refreshToken);
+             _apiDbContext.SaveChanges();
+            return new AuthResult()
+            {
+                Token = jwtToken,
+                Success = true,
+                RefreshToken = refreshToken.token
+            };
+            // return jwtToken;
         }
 
-        // private async Task<AuthResult> VerifyAndGenerateToken(TokenRequest tokenRequest)
-        // {
-        //     var jwtTokenHandler = new JwtSecurityTokenHandler();
+        private async Task<AuthResult> VerifyAndGenerateToken(TokenRequest tokenRequest)
+        {
+            var jwtTokenHandler = new JwtSecurityTokenHandler();
 
-        //     try
-        //     {
-        //         // Validation 1 - Validation JWT token format
-        //         var tokenInVerification = jwtTokenHandler.ValidateToken(tokenRequest.token, _tokenValidationParams, out var validatedToken);
+            try
+            {
+                // Validation 1 - Validation JWT token format
+                var tokenInVerification = jwtTokenHandler.ValidateToken(tokenRequest.Token, _tokenValidationParams, out var validatedToken);
 
-        //         // Validation 2 - Validate encryption alg
-        //         if (validatedToken is JwtSecurityToken jwtSecurityToken)
-        //         {
-        //             var result = jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase);
+                // Validation 2 - Validate encryption alg
+                if (validatedToken is JwtSecurityToken jwtSecurityToken)
+                {
+                    var result = jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase);
 
-        //             if (result == false)
-        //             {
-        //                 return null;
-        //             }
-        //         }
-        //         // Validation 3 - Validate expiry date
-        //         var utcExpiryDate = long.Parse(tokenInVerification.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Exp).Value);
-        //         var expiryDate = UnixTimeStampToDateTime(utcExpiryDate);
+                    if (result == false)
+                    {
+                        return null;
+                    }
+                }
+                // Validation 3 - Validate expiry date
+                var utcExpiryDate = long.Parse(tokenInVerification.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Exp).Value);
+                var expiryDate = UnixTimeStampToDateTime(utcExpiryDate);
 
-        //         if (expiryDate > DateTime.UtcNow)
-        //         {
-        //             return new AuthResult()
-        //             {
-        //                 success = false,
-        //                 errors = new List<string>() {
-        //                         "Token has not yet expired"
-        //                     }
-        //             };
-        //         }
+                if (expiryDate > DateTime.UtcNow)
+                {
+                    return new AuthResult()
+                    {
+                        Success = false,
+                        Errors = new List<string>() {
+                                "Token has not yet expired"
+                            }
+                    };
+                }
 
-        //         // // Validation 4 - Validate existence of the token
-        //         var storedToken = await _apiDbContext.RefreshTokens.FirstOrDefaultAsync(x => x.token == tokenRequest.refreshToken);
+                // // Validation 4 - Validate existence of the token
+                var storedToken = await _apiDbContext.RefreshTokens.FirstOrDefaultAsync(x => x.token == tokenRequest.RefreshToken);
 
-        //         if (storedToken == null)
-        //         {
-        //             return new AuthResult()
-        //             {
-        //                 success = false,
-        //                 errors = new List<string>() {
-        //                         "Token does not exist"
-        //                     }
-        //             };
-        //         }
+                if (storedToken == null)
+                {
+                    return new AuthResult()
+                    {
+                        Success = false,
+                        Errors = new List<string>() {
+                                "Token does not exist"
+                            }
+                    };
+                }
 
-        //         // // Validation 5 - Validate if used
-        //         if (storedToken.isUsed)
-        //         {
-        //             return new AuthResult()
-        //             {
-        //                 success = false,
-        //                 errors = new List<string>() {
-        //                         "Token has been used"
-        //                     }
-        //             };
-        //         }
+                // // Validation 5 - Validate if used
+                if (storedToken.isUsed)
+                {
+                    return new AuthResult()
+                    {
+                        Success = false,
+                        Errors = new List<string>() {
+                                "Token has been used"
+                            }
+                    };
+                }
 
-        //         // // Validation 6 - Validate if revoked
-        //         if (storedToken.isRevoked)
-        //         {
-        //             return new AuthResult()
-        //             {
-        //                 success = false,
-        //                 errors = new List<string>() {
-        //                     "Token has been revoked"
-        //                     }
-        //             };
-        //         }
+                // // Validation 6 - Validate if revoked
+                if (storedToken.isRevoked)
+                {
+                    return new AuthResult()
+                    {
+                        Success = false,
+                        Errors = new List<string>() {
+                            "Token has been revoked"
+                            }
+                    };
+                }
 
-        //         // // Validatoin 7 - Validate the id
-        //         var jti = tokenInVerification.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
+                // // Validatoin 7 - Validate the id
+                var jti = tokenInVerification.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
 
-        //         if (storedToken.jwtId != jti)
-        //         {
-        //             return new AuthResult()
-        //             {
-        //                 success = false,
-        //                 errors = new List<string>() {
-        //                         "Token doesn't match"
-        //                     }
-        //             };
-        //         }
+                if (storedToken.jwtId != jti)
+                {
+                    return new AuthResult()
+                    {
+                        Success = false,
+                        Errors = new List<string>() {
+                                "Token doesn't match"
+                            }
+                    };
+                }
 
-        //         // Update current token
-        //         storedToken.isUsed = true;
-        //         _apiDbContext.RefreshTokens.Update(storedToken);
-        //         _apiDbContext.SaveChanges();
+                // Update current token
+                storedToken.isUsed = true;
+                _apiDbContext.RefreshTokens.Update(storedToken);
+                _apiDbContext.SaveChanges();
 
-        //         // Generate a new token
-        //         var dbUser = await _userManager.FindByIdAsync(storedToken.userId);
-        //         return await GenerateJwtToken(dbUser);
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         if (ex.Message.Contains("Lifetime validation failed, The token is expired."))
-        //         {
-        //             return new AuthResult()
-        //             {
-        //                 success = false,
-        //                 errors = new List<string>() {
-        //                     "Token has expired please re-login"
-        //                 }
-        //             };
-        //         }
-        //         else
-        //         {
-        //             return new AuthResult()
-        //             {
-        //                 success = false,
-        //                 errors = new List<string>() {
-        //                     "Something went wrong." + ex.Message + " " + _tokenValidationParams.IssuerSigningKey
-        //                 }
-        //             };
-        //         }
-        //     }
-        // }
+                // Generate a new token
+                var dbUser = await _userManager.FindByIdAsync(storedToken.userId);
+                return await GenerateJwtToken(dbUser);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Contains("Lifetime validation failed, The token is expired."))
+                {
+                    return new AuthResult()
+                    {
+                        Success = false,
+                        Errors = new List<string>() {
+                            "Token has expired please re-login"
+                        }
+                    };
+                }
+                else
+                {
+                    return new AuthResult()
+                    {
+                        Success = false,
+                        Errors = new List<string>() {
+                            "Something went wrong." + ex.Message + " " + _tokenValidationParams.IssuerSigningKey
+                        }
+                    };
+                }
+            }
+        }
 
-        // private DateTime UnixTimeStampToDateTime(long unixTimeStamp)
-        // {
-        //     var dateTimeVal = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-        //     dateTimeVal = dateTimeVal.AddSeconds(unixTimeStamp).ToUniversalTime();
+        private DateTime UnixTimeStampToDateTime(long unixTimeStamp)
+        {
+            var dateTimeVal = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            dateTimeVal = dateTimeVal.AddSeconds(unixTimeStamp).ToUniversalTime();
 
-        //     return dateTimeVal;
-        // }
+            return dateTimeVal;
+        }
 
-        // private string RandomString(int length)
-        // {
-        //     var random = new Random();
-        //     var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        //     return new string(Enumerable.Repeat(chars, length)
-        //     .Select(x => x[random.Next(x.Length)]).ToArray());
-        // }
+        private string RandomString(int length)
+        {
+            var random = new Random();
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+            .Select(x => x[random.Next(x.Length)]).ToArray());
+        }
     }
 }
