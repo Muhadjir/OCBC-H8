@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,7 @@ namespace PaymentDetail.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class PaymentDetailController: ControllerBase
     {
         private readonly ApiDbContext _context;
@@ -33,8 +34,8 @@ namespace PaymentDetail.Controllers
             {
                 await _context.tb_payment_detail.AddAsync(data);
                 await _context.SaveChangesAsync();
-                // var item = await _context.tb_payment_details.FirstOrDefaultAsync(x => x.paymentDetailId == id);
-                return CreatedAtAction("GetItem",new {data.Id}, data);
+                // var item = await _context.tb_payment_details.FirstOrDefaultAsync(x => x.paymentDetailpaymentDetailId == id);
+                return CreatedAtAction("GetItem",new {data.paymentDetailId}, data);
             }
             
             return new JsonResult("Something went wrong"){StatusCode=500};
@@ -43,7 +44,7 @@ namespace PaymentDetail.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetItem(int id)
         {
-            var item = await _context.tb_payment_detail.FirstOrDefaultAsync(x => x.Id == id);
+            var item = await _context.tb_payment_detail.FirstOrDefaultAsync(x => x.paymentDetailId == id);
             
             if(item == null)
                 return NotFound();
@@ -54,10 +55,10 @@ namespace PaymentDetail.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateItem(int id, PaymentDetailModel item)
         {
-            if(id!= item.Id)
+            if(id!= item.paymentDetailId)
                 return BadRequest();
             
-            var existItem = await _context.tb_payment_detail.FirstOrDefaultAsync( x => x.Id == id);
+            var existItem = await _context.tb_payment_detail.FirstOrDefaultAsync( x => x.paymentDetailId == id);
 
             if(existItem == null)
                 return NotFound();
@@ -70,20 +71,21 @@ namespace PaymentDetail.Controllers
             //Implement the changes on the db level
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok("Perubahan Data Berhasil! Silahkan jalankan GET kembali.");
             
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteItem(int id)
         {
-            var existItem = await _context.tb_payment_detail.FirstOrDefaultAsync(x => x.Id ==id);
+            var existItem = await _context.tb_payment_detail.FirstOrDefaultAsync(x => x.paymentDetailId ==id);
 
             if(existItem == null)
                 return NotFound();
             _context.tb_payment_detail.Remove(existItem);
             await _context.SaveChangesAsync();
-            return Ok(existItem);
+            
+            return Ok("Data Berhasil Dihapus! Silahkan jalankan GET kembali.");
         }
 
     }
